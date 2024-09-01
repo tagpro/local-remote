@@ -12,21 +12,53 @@ git clone https://github.com/tagpro/local-remote.git
 cd local-remote/rasp-router-1
 ```
 
-## Setup secrets password
+## Setup secrets for pihole
 
 ssh to the machine and run the following command
 ```sh
 # Assuming your current directory is where docker-compose is located
 echo "PIHOLE PASSWORD" > pihole_password.txt
-echo "CLOUDFLARE API KEY" > cf_api_token.txt
+```
+
+## CloudFlare setup
+```sh
+# Get API token from https://dash.cloudflare.com/profile/api-tokens with `Zone:Read, DNS:Edit` permissions
+nvim cf_api_token.txt
+
+# Paste and then press `:wq`
+
+# OR
+
+echo "YOUR API TOKEN" > cf_api_token.txt
 ```
 
 ## Setup traefik data directory
 
 ```sh
-mkdir -p data && cd data
+cd data
 touch acme.json
 chmod 600 acme.json
+```
+## Setup docker proxy
+
+```sh
+docker network create proxy
+```
+
+## Create username and password for traefik dashboard
+
+```sh
+# Replace `user` with your username
+echo $(htpasswd -nB user) | sed -e s/\\$/\\$\\$/g
+```
+
+## Put the output in .env file
+
+```sh
+nvim .env
+
+# Add/update the following lines
+TRAEFIK_DASHBOARD_CREDENTIALS=${<Your output from above>}
 ```
 
 ## Start the services
@@ -34,4 +66,3 @@ chmod 600 acme.json
 ```sh
 docker compose up -d
 ```
-

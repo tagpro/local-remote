@@ -17,6 +17,12 @@ sudo apt update
 sudo apt upgrade -y
 ```
 
+## Install Apache2 Utils
+
+```sh
+sudo apt install apache2-utils -y
+```
+
 ## Install git
 
 ```sh
@@ -85,7 +91,37 @@ sudo apt install zsh -y
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 ```
 
-## Install Portainer
+Uncomment the following line in `~/.zshrc` (should be at the top of the file):
+
+```sh
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+```
+
+## Setup [zoxide](https://github.com/ajeetdsouza/zoxide) and [fzf](https://github.com/junegunn/fzf)
+
+```sh
+sudo apt install fzf -y
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+```
+
+Add the following to your `.zshrc` file:
+
+```sh
+eval "$(zoxide init zsh)"
+# OR
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+```
+
+We will add fzf to oh-my-zsh plugin list
+
+```sh
+plugins=(
+    git
+    fzf
+)
+```
+
+## Install Portainer (OPTIONAL)
 
 ```sh
 docker volume create portainer_data
