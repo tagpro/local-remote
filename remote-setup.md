@@ -34,6 +34,7 @@ sudo sh get-docker.sh
 
 ```sh
 sudo usermod -aG docker $USER
+sudo chmod 660 /var/run/docker.sock # might fix permission issues
 ```
 
 ## Install nmap
@@ -82,4 +83,11 @@ sudo apt install zsh -y
 
 ```sh
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+## Install Portainer
+
+```sh
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
 ```
