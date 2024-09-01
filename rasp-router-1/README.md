@@ -58,8 +58,19 @@ echo $(htpasswd -nB user) | sed -e s/\\$/\\$\\$/g
 nvim .env
 
 # Add/update the following lines
-TRAEFIK_DASHBOARD_CREDENTIALS=${<Your output from above>}
+TRAEFIK_DASHBOARD_CREDENTIALS="<Your output from above>"
 ```
+
+## Update the data/traefik.yml file
+
+Fix `TODO` in the file
+
+## Update docker-compose.yml file
+
+```sh
+# Replace local.example.com with your domain
+```
+
 
 ## Start the services
 
