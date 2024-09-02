@@ -15,6 +15,39 @@ This can be used to run commands and also to edit files in the remote machine
 ```sh
 sudo apt update
 sudo apt upgrade -y
+sudo apt install snapd -y
+sudo snap install snapd
+```
+
+## Install zsh
+
+```sh
+sudo apt install zsh -y
+```
+
+## Install oh-my-zsh
+
+```sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+Run the following command to add snap to the path:
+
+```sh
+echo 'export PATH=$PATH:/snap/bin' >> ~/.zshrc
+```
+
+Uncomment the following line in `~/.zshrc` (should be at the top of the file):
+
+```sh
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+```
+
+
+## Install Apache2 Utils
+
+```sh
+sudo apt install apache2-utils -y
 ```
 
 ## Install git
@@ -34,6 +67,7 @@ sudo sh get-docker.sh
 
 ```sh
 sudo usermod -aG docker $USER
+sudo chmod 660 /var/run/docker.sock # might fix permission issues
 ```
 
 ## Install nmap
@@ -48,10 +82,16 @@ sudo apt install nmap -y
 sudo apt install jq -y
 ```
 
-## Install htop
+## Install btop
 
 ```sh
-sudo apt install htop -y
+sudo snap install btop
+```
+
+## Install nslookup
+
+```sh
+sudo apt install dnsutils -y
 ```
 
 ## Install tmux
@@ -72,14 +112,33 @@ sudo apt install neovim -y
 sudo apt install tree -y
 ```
 
-## Install zsh
+## Setup [zoxide](https://github.com/ajeetdsouza/zoxide) and [fzf](https://github.com/junegunn/fzf)
 
 ```sh
-sudo apt install zsh -y
+sudo apt install fzf -y
+curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
 ```
 
-## Install oh-my-zsh
+Add the following to your `.zshrc` file:
 
 ```sh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+eval "$(zoxide init zsh)"
+# OR
+echo 'eval "$(zoxide init zsh)"' >> ~/.zshrc
+```
+
+We will add fzf to oh-my-zsh plugin list
+
+```sh
+plugins=(
+    git
+    fzf
+)
+```
+
+## Install Portainer (OPTIONAL)
+
+```sh
+docker volume create portainer_data
+docker run -d -p 8000:8000 -p 9443:9443 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:latest
 ```
