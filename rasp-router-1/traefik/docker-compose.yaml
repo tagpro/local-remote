@@ -6,10 +6,11 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy  # Created external network
-    ports:
-      - '80:80'
-      - '443:443'
+      - proxy:  # Created external network
+          ipv4_address: 192.168.68.122
+    # ports:
+      # - '80:80'
+      # - '443:443'
     environment:
       - CF_DNS_API_TOKEN_FILE=/run/secrets/cf_api_token
       - TRAEFIK_LOG_LEVEL=DEBUG
@@ -27,6 +28,7 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.traefik.entrypoints=http"
+      - "traefik.http.services.traefik.loadbalancer.server.port=80"
       - "traefik.http.routers.traefik.rule=Host(`traefik-dashboard.local.example.com`)"
       - "traefik.http.middlewares.traefik-auth.basicauth.users=${TRAEFIK_DASHBOARD_CREDENTIALS}"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
@@ -41,52 +43,9 @@ services:
       - "traefik.http.routers.traefik-secure.tls.domains[0].sans=*.local.example.com"
       - "traefik.http.routers.traefik-secure.service=api@internal"
 
-  pihole:
-    image: pihole/pihole:latest
-    container_name: pihole
-    restart: unless-stopped
-    environment:
-      - TZ=America/New_York
-      - WEBPASSWORD_FILE=/run/secrets/pihole_password
-      - DNS1=1.1.1.1
-      - DNS2=1.0.0.1
-    secrets:
-      - pihole_password
-    labels:
-      - "traefik.http.routers.pihole.rule=Host(`pihole.local.example.com`)"
-      - "traefik.http.routers.pihole.entrypoints=web"
-      - "traefik.http.routers.pihole.middlewares=pihole-stripprefix"
-      - "traefik.http.middlewares.pihole-stripprefix.stripprefix.prefixes=/pihole"
-
-    volumes:
-      - './pihole:/etc/pihole'
-      - './dnsmasq.d:/etc/dnsmasq.d'
-    ports:
-      - '53:53/tcp'
-      - '53:53/udp'
-      # - '80:80'
-    dns:
-      - '127.0.0.1'
-      - '1.1.1.1'
-    # cap_add:
-    #   - NET_ADMIN
-
-  portainer:
-    image: portainer/portainer-ce:latest
-    container_name: portainer
-    restart: always
-    volumes:
-      - '/var/run/docker.sock:/var/run/docker.sock'
-      - './portainer_data:/data'
-    ports:
-      - '9443:9443'
-
-
 secrets:
   cf_api_token:
     file: ./cf_api_token.txt
-  pihole_password:
-    file: ./pihole_password.txt
 
 networks:
   proxy:

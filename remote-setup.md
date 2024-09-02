@@ -15,7 +15,34 @@ This can be used to run commands and also to edit files in the remote machine
 ```sh
 sudo apt update
 sudo apt upgrade -y
+sudo apt install snapd -y
+sudo snap install snapd
 ```
+
+## Install zsh
+
+```sh
+sudo apt install zsh -y
+```
+
+## Install oh-my-zsh
+
+```sh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+```
+
+Run the following command to add snap to the path:
+
+```sh
+echo 'export PATH=$PATH:/snap/bin' >> ~/.zshrc
+```
+
+Uncomment the following line in `~/.zshrc` (should be at the top of the file):
+
+```sh
+export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
+```
+
 
 ## Install Apache2 Utils
 
@@ -55,10 +82,16 @@ sudo apt install nmap -y
 sudo apt install jq -y
 ```
 
-## Install htop
+## Install btop
 
 ```sh
-sudo apt install htop -y
+sudo snap install btop
+```
+
+## Install nslookup
+
+```sh
+sudo apt install dnsutils -y
 ```
 
 ## Install tmux
@@ -77,24 +110,6 @@ sudo apt install neovim -y
 
 ```sh
 sudo apt install tree -y
-```
-
-## Install zsh
-
-```sh
-sudo apt install zsh -y
-```
-
-## Install oh-my-zsh
-
-```sh
-sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-```
-
-Uncomment the following line in `~/.zshrc` (should be at the top of the file):
-
-```sh
-export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 ```
 
 ## Setup [zoxide](https://github.com/ajeetdsouza/zoxide) and [fzf](https://github.com/junegunn/fzf)

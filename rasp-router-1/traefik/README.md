@@ -9,15 +9,7 @@ cd ~/workspace/tagpro
 
 ```sh
 git clone https://github.com/tagpro/local-remote.git
-cd local-remote/rasp-router-1
-```
-
-## Setup secrets for pihole
-
-ssh to the machine and run the following command
-```sh
-# Assuming your current directory is where docker-compose is located
-echo "PIHOLE PASSWORD" > pihole_password.txt
+cd local-remote/rasp-router-1/traefik
 ```
 
 ## CloudFlare setup
@@ -55,14 +47,6 @@ docker network create -d macvlan \
 --subnet <YOUR SUBNET IP> \
 --gateway <YOUR GATEWAY IP> \
 -o parent=<Parent interface, example: eth0> \
-proxy
-```
-
-```sh
-docker network create -d macvlan \
---subnet 192.168.68.0/22 \
---gateway 192.168.68.1 \
--o parent=eth0.20 \
 proxy
 ```
 
