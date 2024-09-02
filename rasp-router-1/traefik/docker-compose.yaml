@@ -6,8 +6,8 @@ services:
     security_opt:
       - no-new-privileges:true
     networks:
-      - proxy:  # Created external network
-          ipv4_address: 192.168.68.122
+      proxy:  # Created external network
+        ipv4_address: 192.168.68.122
     # ports:
       # - '80:80'
       # - '443:443'

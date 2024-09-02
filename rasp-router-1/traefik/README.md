@@ -30,15 +30,14 @@ echo "YOUR API TOKEN" > cf_api_token.txt
 cd data
 touch acme.json
 chmod 600 acme.json
+cd ..
 ```
 ## Setup docker proxy
 
 ```sh
 
-# Replace <YOUR SUBNET IP> with your subnet ip
-# ip addr
-# Replace <YOUR GATEWAY IP> with your gateway ip
-# ip route | grep default
+# Replace Subnet and Gateway IP with your gateway ip
+# ip route
 # Replace <Parent interface, example: eth0> with your parent interface
 # ip link
 
@@ -64,6 +63,9 @@ nvim .env
 
 # Add/update the following lines
 TRAEFIK_DASHBOARD_CREDENTIALS="<Your output from above>"
+
+# OR
+echo "TRAEFIK_DASHBOARD_CREDENTIALS=<Your output from above>" >> .env
 ```
 
 ## Update the data/traefik.yml file
