@@ -1,0 +1,33 @@
+services:
+    portainer:
+      image: portainer/portainer-ce:latest
+      command: -H unix:///var/run/docker.sock
+      restart: always
+      networks:
+        proxy:  # created external network
+          ipv4_address: 192.168.68.133
+      volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - portainer_data:/data
+      labels:
+        # Frontend
+        - "traefik.enable=true"
+        - "traefik.http.routers.portainer.rule=Host(`portainer.local.example.com`)"
+        - "traefik.http.routers.portainer.entrypoints=https"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        - "traefik.http.routers.portainer.service=portainer"
+        - "traefik.http.routers.portainer.tls.certresolver=cloudflare"
+
+        # Edge
+        - "traefik.http.routers.edge.rule=Host(`edge.local.example.com`)"
+        - "traefik.http.routers.edge.entrypoints=https"
+        - "traefik.http.services.edge.loadbalancer.server.port=8000"
+        - "traefik.http.routers.edge.service=edge"
+        - "traefik.http.routers.edge.tls.certresolver=cloudflare"
+
+volumes:
+  portainer_data:
+
+networks:
+  proxy:
+    external: true
