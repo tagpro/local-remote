@@ -1,0 +1,24 @@
+services:
+  glances:
+    restart: always
+    environment:
+      - GLANCES_OPT=-w
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    pid: host
+    image: nicolargo/glances:latest
+    networks:
+        proxy:  # created external network in traefik
+          ipv4_address: 192.168.68.134
+    labels:
+        - "traefik.enable=true"
+        - "traefik.http.routers.glances.rule=Host(`glances.local.example.com`)"
+        - "traefik.http.routers.glances.entrypoints=https"
+        - "traefik.http.services.glances.loadbalancer.server.port=61208"
+        - "traefik.http.routers.glances.service=glances"
+        - "traefik.http.routers.glances.tls.certresolver=cloudflare"
+
+
+networks:
+  proxy:
+    external: true
