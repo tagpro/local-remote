@@ -12,18 +12,18 @@ services:
       labels:
         # Frontend
         - "traefik.enable=true"
-        - "traefik.http.routers.frontend.rule=Host(`portainer.example.com`)"
-        - "traefik.http.routers.frontend.entrypoints=websecure"
-        - "traefik.http.services.frontend.loadbalancer.server.port=9000"
-        - "traefik.http.routers.frontend.service=frontend"
-        - "traefik.http.routers.frontend.tls.certresolver=leresolver"
+        - "traefik.http.routers.portainer.rule=Host(`portainer.local.example.com`)"
+        - "traefik.http.routers.portainer.entrypoints=https"
+        - "traefik.http.services.portainer.loadbalancer.server.port=9000"
+        - "traefik.http.routers.portainer.service=portainer"
+        - "traefik.http.routers.portainer.tls.certresolver=cloudflare"
 
         # Edge
-        - "traefik.http.routers.edge.rule=Host(`edge.example.com`)"
-        - "traefik.http.routers.edge.entrypoints=websecure"
+        - "traefik.http.routers.edge.rule=Host(`edge.local.example.com`)"
+        - "traefik.http.routers.edge.entrypoints=https"
         - "traefik.http.services.edge.loadbalancer.server.port=8000"
         - "traefik.http.routers.edge.service=edge"
-        - "traefik.http.routers.edge.tls.certresolver=leresolver"
+        - "traefik.http.routers.edge.tls.certresolver=cloudflare"
 
 volumes:
   portainer_data:
