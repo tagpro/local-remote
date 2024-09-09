@@ -4,7 +4,7 @@ services:
       command: -H unix:///var/run/docker.sock
       restart: always
       networks:
-        proxy:  # created external network
+        proxy:  # created external network in traefik
           ipv4_address: 192.168.68.133
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
